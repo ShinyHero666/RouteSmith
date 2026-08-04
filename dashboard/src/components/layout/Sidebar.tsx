@@ -75,7 +75,10 @@ export function Sidebar({ onNavigate, mobile = false }: SidebarProps) {
             <Zap className="h-4 w-4" />
           </div>
           {!isCollapsed && (
-            <span className="text-lg font-bold tracking-tight">ModelPort</span>
+            <span className="flex min-w-0 flex-col leading-none">
+              <strong className="truncate text-base font-bold">ModelHub</strong>
+              <small className="mt-1 truncate text-[9px] font-medium text-sidebar-foreground/45">AI GATEWAY</small>
+            </span>
           )}
           {mobile && (
             <Button variant="ghost" size="icon" onClick={onNavigate} className="ml-auto h-8 w-8" aria-label="关闭导航菜单">

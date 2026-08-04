@@ -1,13 +1,12 @@
-# ModelPort
+# ModelHub · Multi-model Gateway and Governance
 
-[![CI](https://github.com/tiammomo/ModelPort/actions/workflows/ci.yml/badge.svg)](https://github.com/tiammomo/ModelPort/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/tiammomo/ModelPort/actions/workflows/codeql.yml/badge.svg)](https://github.com/tiammomo/ModelPort/actions/workflows/codeql.yml)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/tiammomo/ModelPort/badge)](https://scorecard.dev/viewer/?uri=github.com/tiammomo/ModelPort)
+[![CI](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/codeql.yml/badge.svg)](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **English** | [简体中文](README.zh-CN.md)
 
-ModelPort is a self-hosted LLM gateway for Anthropic-compatible and
+ModelHub is a self-hosted LLM gateway for Anthropic-compatible and
 OpenAI-compatible clients. It gives Claude Code, SDKs, and internal
 applications one endpoint for authentication, model routing, quotas, usage,
 Provider health, request evidence, and operations.

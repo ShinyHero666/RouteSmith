@@ -1,13 +1,12 @@
-# ModelPort
+# ModelHub · 多模型服务统一接入与治理网关
 
-[![CI](https://github.com/tiammomo/ModelPort/actions/workflows/ci.yml/badge.svg)](https://github.com/tiammomo/ModelPort/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/tiammomo/ModelPort/actions/workflows/codeql.yml/badge.svg)](https://github.com/tiammomo/ModelPort/actions/workflows/codeql.yml)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/tiammomo/ModelPort/badge)](https://scorecard.dev/viewer/?uri=github.com/tiammomo/ModelPort)
+[![CI](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/codeql.yml/badge.svg)](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 [English](README.md) | **简体中文**
 
-ModelPort 是面向 Anthropic-compatible 和 OpenAI-compatible 客户端的自托管
+ModelHub 是面向 Anthropic-compatible 和 OpenAI-compatible 客户端的自托管
 LLM 网关。Claude Code、SDK 和内部应用可以通过一个入口统一获得鉴权、模型
 路由、配额、用量、Provider 健康、请求证据和运维能力。
 

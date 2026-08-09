@@ -34,7 +34,7 @@ thiserror = "2"
 tokio = { version = "1", features = ["fs", "io-util", "macros", "process", "rt-multi-thread", "signal", "time"] }
 toml = "0.9"
 tower = { version = "0.5", features = ["limit", "util"] }
-tower-http = { version = "0.6", features = ["request-id", "trace"] }
+tower-http = { version = "0.7", features = ["request-id", "trace"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
 uuid = { version = "1", features = ["v4"] }

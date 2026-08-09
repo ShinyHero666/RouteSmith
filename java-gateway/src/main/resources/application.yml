@@ -1,0 +1,75 @@
+server:
+  port: ${MODELPORT_PORT:38082}
+  shutdown: graceful
+
+spring:
+  application:
+    name: modelport-java
+  datasource:
+    url: ${MODELPORT_DB_URL:jdbc:h2:file:./data/modelport;MODE=PostgreSQL;AUTO_SERVER=TRUE;DATABASE_TO_LOWER=TRUE}
+    username: ${MODELPORT_DB_USERNAME:sa}
+    password: ${MODELPORT_DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: 8
+  flyway:
+    enabled: true
+  codec:
+    max-in-memory-size: 2MB
+  jackson:
+    default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+modelport:
+  request-timeout: ${MODELPORT_REQUEST_TIMEOUT:30s}
+  max-request-bytes: 2097152
+  default-routing-policy: ${MODELPORT_ROUTING_POLICY:BALANCED}
+  failure-threshold: ${MODELPORT_FAILURE_THRESHOLD:2}
+  circuit-open-duration: ${MODELPORT_CIRCUIT_OPEN_DURATION:30s}
+  client-keys:
+    - id: local-development
+      secret: ${MODELPORT_CLIENT_KEY:dev-client-key}
+      tenant: local
+      requests-per-minute: 120
+      monthly-token-budget: ${MODELPORT_MONTHLY_TOKEN_BUDGET:1000000}
+  providers:
+    - id: local-openai
+      base-url: ${MODELPORT_UPSTREAM_URL:http://127.0.0.1:8000}
+      protocol: OPENAI
+      api-key: ${MODELPORT_UPSTREAM_KEY:}
+      enabled: ${MODELPORT_LOCAL_ENABLED:true}
+      models:
+        - qwen-local
+      quality-score: 0.78
+      input-cost-per-million: 0.0
+      output-cost-per-million: 0.0
+      expected-latency-ms: 350
+    - id: deepseek
+      base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
+      protocol: OPENAI
+      api-key: ${DEEPSEEK_API_KEY:}
+      enabled: ${DEEPSEEK_ENABLED:false}
+      models:
+        - deepseek-chat
+        - deepseek-reasoner
+      quality-score: 0.90
+      input-cost-per-million: 0.50
+      output-cost-per-million: 1.00
+      expected-latency-ms: 900
+  aliases:
+    - name: qwen-default
+      provider: local-openai
+      model: qwen-local
+    - name: deepseek-default
+      provider: deepseek
+      model: deepseek-chat
+    - name: smart-default
+      provider: local-openai
+      model: qwen-local
+    - name: smart-default
+      provider: deepseek
+      model: deepseek-chat

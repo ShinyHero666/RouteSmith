@@ -8,3 +8,6 @@
 dashboard/playwright-report/
 dashboard/test-results/
 .vscode/settings.json
+/java-gateway/target/
+/java-gateway/data/
+/java-gateway/*.log

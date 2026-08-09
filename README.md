@@ -1,4 +1,4 @@
-# ModelHub · Multi-model Gateway and Governance
+# ModelPort · Multi-model Gateway and Governance
 
 [![CI](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/codeql.yml/badge.svg)](https://github.com/ShinyHero666/ModelHub-Gateway/actions/workflows/codeql.yml)
@@ -6,7 +6,7 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-ModelHub is a self-hosted LLM gateway for Anthropic-compatible and
+ModelPort is a self-hosted LLM gateway for Anthropic-compatible and
 OpenAI-compatible clients. It gives Claude Code, SDKs, and internal
 applications one endpoint for authentication, model routing, quotas, usage,
 Provider health, request evidence, and operations.
@@ -141,6 +141,17 @@ Read [Security](SECURITY.md), [Privacy](PRIVACY.md), [Support](SUPPORT.md), and
 written agreement provides one.
 
 ## Development
+
+The current Java 17 gateway implementation is available at
+[java-gateway](java-gateway/README.md), including explainable multi-factor routing,
+Provider circuits, bounded fallback and routing traces. It can run independently while the
+Rust service remains the behavior oracle:
+
+~~~bash
+cd java-gateway
+mvn test
+mvn spring-boot:run
+~~~
 
 ```bash
 cp .env.example .env

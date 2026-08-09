@@ -1,6 +1,6 @@
-# ModelPort Dashboard
+# RouteSmith Control Console
 
-The dashboard is ModelPort's browser control plane. It is built with React,
+The dashboard is RouteSmith's browser control plane. It is built with React,
 TypeScript, Vite, Tailwind CSS, local shadcn-style primitives, TanStack Query,
 Table and Virtual, Recharts, Zustand, and Playwright.
 
@@ -13,7 +13,7 @@ responses, and it is not a chat interface.
 ## Requirements
 
 - Node.js 24 and npm (matching CI).
-- A running ModelPort backend for real mode.
+- A running RouteSmith backend for real mode.
 - Playwright Chromium and host dependencies for E2E tests.
 
 Install reproducibly:

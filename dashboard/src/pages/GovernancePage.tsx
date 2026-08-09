@@ -125,7 +125,7 @@ export function GovernancePage() {
 
       <div className="grid gap-4 md:grid-cols-4">
         <Metric title="治理存储" value={data.ready ? '就绪' : '降级'} detail="审批状态持久化" icon={data.ready ? CheckCircle2 : AlertTriangle} />
-        <Metric title="本地执行" value={`${scheduler.running} / 1`} detail="单 ModelPort 执行槽" icon={ShieldCheck} />
+        <Metric title="本地执行" value={`${scheduler.running} / 1`} detail="单 RouteSmith 执行槽" icon={ShieldCheck} />
         <Metric title="交互队列" value={`${scheduler.interactiveQueued} / ${scheduler.limits.globalInteractiveQueue}`} detail="全局本地队列" icon={Clock3} />
         <Metric title="后台队列" value={`${scheduler.batchQueued} / ${scheduler.limits.globalBatchQueue}`} detail="独立低优先级" icon={Clock3} />
       </div>

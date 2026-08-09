@@ -20,7 +20,7 @@ import {
   Loader2,
   ShieldCheck,
   UserRound,
-  Zap,
+  Waypoints,
 } from 'lucide-react'
 
 function readSessionValue(key: string): string {
@@ -135,10 +135,10 @@ export function LoginPage() {
             <header className="flex items-start justify-between gap-6">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-teal-700/15 bg-white/75 text-teal-700 shadow-[0_12px_30px_rgba(15,118,110,0.10)] backdrop-blur-md">
-                  <Zap className="h-6 w-6" />
+                  <Waypoints className="h-6 w-6" />
                 </div>
                 <div>
-                  <p className="text-lg font-semibold text-slate-950">ModelPort</p>
+                  <p className="text-lg font-semibold text-slate-950">RouteSmith</p>
                   <p className="text-sm text-slate-600">Enterprise AI Gateway</p>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export function LoginPage() {
 
             <section className="mt-11 max-w-[390px]">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-teal-700">Route · Govern · Observe</p>
-              <h2 className="mt-3 text-3xl font-semibold leading-[1.18] tracking-[-0.035em] text-slate-950 xl:text-[2.15rem]">
+              <h2 className="mt-3 text-3xl font-semibold leading-[1.18] tracking-normal text-slate-950 xl:text-[2.15rem]">
                 模型自由接入，<br />
                 <span className="bg-gradient-to-r from-teal-700 via-cyan-700 to-indigo-600 bg-clip-text text-transparent">治理始终统一。</span>
               </h2>
@@ -173,11 +173,11 @@ export function LoginPage() {
           <div className="relative w-full max-w-[360px] lg:-translate-y-3">
             <CardHeader className="items-center px-0 pb-7 text-center">
               <div className="mb-3.5 flex h-10 w-10 items-center justify-center rounded-xl border border-teal-200/60 bg-teal-50/80 text-teal-600 shadow-[0_8px_20px_rgba(13,148,136,0.08)]">
-                <Zap className="h-5 w-5" />
+                <Waypoints className="h-5 w-5" />
               </div>
               <div className="space-y-1.5">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-teal-700">ModelPort Console</p>
-                <h1 className="text-2xl font-semibold tracking-[-0.025em] text-slate-950">登录控制台</h1>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-teal-700">RouteSmith Console</p>
+                <h1 className="text-2xl font-semibold tracking-normal text-slate-950">登录控制台</h1>
                 <p className="text-sm text-slate-500">使用管理员账户进入企业网关</p>
               </div>
             </CardHeader>

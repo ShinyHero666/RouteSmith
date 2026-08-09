@@ -119,7 +119,7 @@ export const PROVIDER_TEMPLATES: ProviderTemplate[] = [
     modelPrefixes: ['gpt-', 'o1', 'o3', 'o4', 'o5', 'chatgpt-'],
     passthroughUnknownModels: false,
     maxTokensField: 'max_completion_tokens',
-    notes: 'ModelPort 服务端的官方 OpenAI 上游；客户端连接网关时仍使用标准 OPENAI_* 变量。',
+    notes: 'RouteSmith 服务端的官方 OpenAI 上游；客户端连接网关时仍使用标准 OPENAI_* 变量。',
   },
   {
     id: 'anthropic',

@@ -17,7 +17,7 @@ import {
   Scale,
   ChevronLeft,
   ChevronRight,
-  Zap,
+  Waypoints,
   X,
 } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -72,12 +72,12 @@ export function Sidebar({ onNavigate, mobile = false }: SidebarProps) {
         {/* Logo */}
         <div className="flex h-14 items-center gap-2.5 border-b border-sidebar-border/70 px-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-primary/60 bg-primary text-primary-foreground shadow-[0_4px_12px_oklch(0.35_0.08_185/0.14)]">
-            <Zap className="h-4 w-4" />
+            <Waypoints className="h-4 w-4" />
           </div>
           {!isCollapsed && (
             <span className="flex min-w-0 flex-col leading-none">
-              <strong className="truncate text-base font-bold">ModelHub</strong>
-              <small className="mt-1 truncate text-[9px] font-medium text-sidebar-foreground/45">AI GATEWAY</small>
+              <strong className="truncate text-base font-bold">RouteSmith</strong>
+              <small className="mt-1 truncate text-[9px] font-medium text-sidebar-foreground/45">INTELLIGENT GATEWAY</small>
             </span>
           )}
           {mobile && (

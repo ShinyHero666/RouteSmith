@@ -1,6 +1,6 @@
 [Unit]
-Description=ModelPort local Claude model gateway
-Documentation=https://github.com/tiammomo/ModelPort
+Description=RouteSmith multi-model intelligent gateway
+Documentation=https://github.com/ShinyHero666/RouteSmith
 After=network-online.target
 Wants=network-online.target
 

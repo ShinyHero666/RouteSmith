@@ -71,8 +71,8 @@ export function UsageGuidePage() {
   const isAdmin = useAuthStore((state) => state.currentUser?.role === 'admin')
   const gatewayOrigin = window.location.origin
 
-  const anthropicEnv = `ANTHROPIC_BASE_URL=${gatewayOrigin}\nANTHROPIC_AUTH_TOKEN=<你的 ModelPort API Key>\nANTHROPIC_MODEL=${EXAMPLE_MODEL}`
-  const openAiEnv = `OPENAI_BASE_URL=${gatewayOrigin}/v1\nOPENAI_API_KEY=<你的 ModelPort API Key>\nOPENAI_MODEL=${EXAMPLE_MODEL}`
+  const anthropicEnv = `ANTHROPIC_BASE_URL=${gatewayOrigin}\nANTHROPIC_AUTH_TOKEN=<你的 RouteSmith API Key>\nANTHROPIC_MODEL=${EXAMPLE_MODEL}`
+  const openAiEnv = `OPENAI_BASE_URL=${gatewayOrigin}/v1\nOPENAI_API_KEY=<你的 RouteSmith API Key>\nOPENAI_MODEL=${EXAMPLE_MODEL}`
 
   return (
     <div className="w-full">
@@ -104,7 +104,7 @@ export function UsageGuidePage() {
         <SectionHeading
           eyebrow="Client setup"
           title="配置客户端"
-          description="两种客户端协议使用同一套 ModelPort API Key，但 Base URL 规则不同。"
+          description="两种客户端协议使用同一套 RouteSmith API Key，但 Base URL 规则不同。"
         />
         <div className="grid gap-8 xl:grid-cols-2 xl:gap-0 xl:divide-x">
           <article className="xl:pr-8">
@@ -112,7 +112,7 @@ export function UsageGuidePage() {
               <h3 className="flex items-center gap-2 font-semibold"><Terminal className="h-4 w-4 text-primary" />Anthropic-compatible</h3>
               <span className="text-xs text-muted-foreground">Claude Code / Anthropic SDK</span>
             </div>
-            <p className="mb-3 text-sm leading-6 text-muted-foreground">客户端连接 ModelPort，而不是直接连接实际模型上游。</p>
+            <p className="mb-3 text-sm leading-6 text-muted-foreground">客户端连接 RouteSmith，而不是直接连接实际模型上游。</p>
             <CodeBlock>{anthropicEnv}</CodeBlock>
             <p className="mt-3 text-xs text-muted-foreground">接口：<code className="font-mono">POST /v1/messages</code>，认证头：<code className="font-mono">x-api-key</code>。</p>
           </article>

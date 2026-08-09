@@ -1757,7 +1757,7 @@ export function ModelsPage() {
           <DialogHeader>
             <DialogTitle>{selectedTemplate?.displayName}</DialogTitle>
             <DialogDescription>
-              复制到 config.toml 或 .env，重启 ModelPort 后生效。密钥仍建议放在环境变量里。
+              复制到 config.toml 或 .env，重启 RouteSmith 后生效。密钥仍建议放在环境变量里。
             </DialogDescription>
           </DialogHeader>
           {selectedTemplate && (

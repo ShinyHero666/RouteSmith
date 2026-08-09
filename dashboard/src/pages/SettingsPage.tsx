@@ -1017,7 +1017,7 @@ function downloadBackup(backup: BackupExport) {
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
   anchor.href = url
-  anchor.download = `modelport-diagnostic-snapshot-${stamp}.json`
+  anchor.download = `routesmith-diagnostic-snapshot-${stamp}.json`
   anchor.click()
   URL.revokeObjectURL(url)
 }

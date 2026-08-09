@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
-  <title id="title">ModelPort architecture overview</title>
-  <desc id="desc">Anthropic and OpenAI-compatible clients call a local multi-protocol ModelPort gateway, which routes requests to configured upstream model providers.</desc>
+  <title id="title">RouteSmith architecture overview</title>
+  <desc id="desc">Anthropic and OpenAI-compatible clients call a local multi-protocol RouteSmith gateway, which routes requests to configured upstream model providers.</desc>
 
   <defs>
     <marker id="arrow" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="strokeWidth">
@@ -32,7 +32,7 @@
   <rect x="0" y="0" width="1600" height="132" fill="#ffffff"/>
   <line x1="0" y1="132" x2="1600" y2="132" stroke="#d7e0e8" stroke-width="2"/>
 
-  <text class="title" x="80" y="82">ModelPort</text>
+  <text class="title" x="80" y="82">RouteSmith</text>
   <text class="subtitle" x="80" y="116">Multi-protocol gateway for Claude tools, OpenAI-compatible SDKs, and common model providers</text>
   <rect class="chip-hot" x="1260" y="48" width="260" height="44" rx="8"/>
   <text class="chip-hot-text" x="1290" y="77">DeepSeek v4 flash</text>
@@ -56,7 +56,7 @@
   <text class="arrow-label" x="474" y="396">API</text>
 
   <rect class="panel-strong" x="530" y="176" width="540" height="500" rx="8"/>
-  <text class="h2" x="570" y="234">ModelPort local gateway</text>
+  <text class="h2" x="570" y="234">RouteSmith local gateway</text>
   <text class="body" x="570" y="270">Auth, routing, conversion, streaming, metrics.</text>
 
   <rect x="570" y="312" width="460" height="56" rx="8" fill="#f2f6fa" stroke="#d7e0e8" stroke-width="1.5"/>

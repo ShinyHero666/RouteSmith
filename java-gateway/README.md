@@ -1,6 +1,6 @@
-# ModelPort Java gateway
+# RouteSmith Java gateway
 
-ModelPort is a Java 17 / Spring WebFlux gateway for OpenAI-compatible and
+RouteSmith is a Java 17 / Spring WebFlux gateway for OpenAI-compatible and
 Anthropic-compatible clients. It is infrastructure, not an Agent: routing,
 protocol conversion, quotas and failure handling remain deterministic.
 

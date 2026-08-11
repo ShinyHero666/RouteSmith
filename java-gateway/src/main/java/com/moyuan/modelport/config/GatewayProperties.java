@@ -80,6 +80,12 @@ public class GatewayProperties {
         private double inputCostPerMillion = 1.0;
         private double outputCostPerMillion = 2.0;
         private long expectedLatencyMs = 1_000;
+        private long maxContextTokens = 128_000;
+        private boolean supportsTools = true;
+        private boolean supportsStreaming = true;
+        private double prefillTokensPerSecond = 2_500;
+        private double decodeTokensPerSecond = 80;
+        private long toolCallPenaltyMs = 250;
 
         public String getId() { return id; }
         public void setId(String id) { this.id = id; }
@@ -107,6 +113,18 @@ public class GatewayProperties {
         public void setExpectedLatencyMs(long expectedLatencyMs) {
             this.expectedLatencyMs = expectedLatencyMs;
         }
+        public long getMaxContextTokens() { return maxContextTokens; }
+        public void setMaxContextTokens(long value) { this.maxContextTokens = value; }
+        public boolean isSupportsTools() { return supportsTools; }
+        public void setSupportsTools(boolean value) { this.supportsTools = value; }
+        public boolean isSupportsStreaming() { return supportsStreaming; }
+        public void setSupportsStreaming(boolean value) { this.supportsStreaming = value; }
+        public double getPrefillTokensPerSecond() { return prefillTokensPerSecond; }
+        public void setPrefillTokensPerSecond(double value) { this.prefillTokensPerSecond = value; }
+        public double getDecodeTokensPerSecond() { return decodeTokensPerSecond; }
+        public void setDecodeTokensPerSecond(double value) { this.decodeTokensPerSecond = value; }
+        public long getToolCallPenaltyMs() { return toolCallPenaltyMs; }
+        public void setToolCallPenaltyMs(long value) { this.toolCallPenaltyMs = value; }
     }
 
     public static class ModelAlias {

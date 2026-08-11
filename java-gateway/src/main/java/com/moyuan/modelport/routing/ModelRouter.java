@@ -30,6 +30,14 @@ public class ModelRouter {
     }
 
     public Plan plan(String requestedModel, RoutingPolicy policy) {
+        return plan(requestedModel, policy, RoutingRequestProfile.defaults());
+    }
+
+    public Plan plan(
+            String requestedModel,
+            RoutingPolicy policy,
+            RoutingRequestProfile profile
+    ) {
         if (requestedModel == null || requestedModel.isBlank()) {
             throw new GatewayException(HttpStatus.BAD_REQUEST, "model is required");
         }
@@ -55,12 +63,35 @@ public class ModelRouter {
                     "all provider circuits are open for model: " + requestedModel);
         }
 
-        List<Route> routes = available.stream()
-                .map(target -> score(requestedModel, target, policy))
-                .sorted(Comparator.comparingDouble(Route::score).reversed()
+        List<Target> eligible = available.stream()
+                .filter(target -> supports(target.provider(), profile))
+                .toList();
+        if (eligible.isEmpty()) {
+            throw new GatewayException(
+                    HttpStatus.UNPROCESSABLE_ENTITY,
+                    "no provider route satisfies the request capabilities or context window");
+        }
+
+        List<Evaluation> evaluations = eligible.stream()
+                .map(target -> evaluate(target, profile))
+                .toList();
+        double minimumCost = evaluations.stream()
+                .mapToDouble(Evaluation::expectedCostUsd).min().orElse(0);
+        double minimumLatency = evaluations.stream()
+                .mapToDouble(Evaluation::predictedLatencyMs).min().orElse(1);
+
+        List<Route> routes = evaluations.stream()
+                .map(item -> score(
+                        requestedModel, item, policy, profile,
+                        minimumCost, minimumLatency))
+                .sorted(Comparator
+                        .comparingDouble((Route route) ->
+                                route.evidence().getOrDefault("slo_met", 1.0))
+                        .reversed()
+                        .thenComparing(Comparator.comparingDouble(Route::score).reversed())
                         .thenComparing(route -> route.provider().getId()))
                 .toList();
-        return new Plan(requestedModel, policy, routes);
+        return new Plan(requestedModel, policy, profile, routes);
     }
 
     public RoutingPolicy policy(String requested) {
@@ -112,18 +143,20 @@ public class ModelRouter {
                 .toList();
     }
 
-    private Route score(String requestedModel, Target target, RoutingPolicy policy) {
+    private Route score(
+            String requestedModel,
+            Evaluation evaluation,
+            RoutingPolicy policy,
+            RoutingRequestProfile profile,
+            double minimumCost,
+            double minimumLatency
+    ) {
+        Target target = evaluation.target();
         GatewayProperties.Provider provider = target.provider();
-        ProviderHealthRegistry.Snapshot snapshot = health.snapshot(
-                provider.getId(),
-                provider.getExpectedLatencyMs());
-
         double quality = clamp(provider.getQualityScore());
-        double blendedCost = provider.getInputCostPerMillion() * 0.7
-                + provider.getOutputCostPerMillion() * 0.3;
-        double cost = 1.0 / (1.0 + Math.max(0, blendedCost));
-        double latency = 1.0 / (1.0 + snapshot.observedLatencyMs() / 1_000.0);
-        double reliability = clamp(snapshot.reliability());
+        double cost = relativeUtility(minimumCost, evaluation.expectedCostUsd());
+        double latency = relativeUtility(minimumLatency, evaluation.predictedLatencyMs());
+        double reliability = clamp(evaluation.reliability());
 
         double score = switch (policy) {
             case QUALITY -> quality * 0.70 + reliability * 0.20 + latency * 0.10;
@@ -133,18 +166,79 @@ public class ModelRouter {
                     + latency * 0.20 + reliability * 0.20;
         };
 
-        Map<String, Double> evidence = Map.of(
-                "quality", quality,
-                "cost", cost,
-                "latency", latency,
-                "reliability", reliability);
+        Map<String, Double> evidence = new LinkedHashMap<>();
+        evidence.put("quality", quality);
+        evidence.put("cost", cost);
+        evidence.put("latency", latency);
+        evidence.put("reliability", reliability);
+        evidence.put("estimated_cost_usd", evaluation.expectedCostUsd());
+        evidence.put("predicted_latency_ms", evaluation.predictedLatencyMs());
+        evidence.put("context_utilization", evaluation.contextUtilization());
+        evidence.put("slo_met", profile.latencySloMs() == null
+                || evaluation.predictedLatencyMs() <= profile.latencySloMs() ? 1.0 : 0.0);
         return new Route(
                 requestedModel,
                 target.upstreamModel(),
                 provider,
                 policy,
                 score,
-                evidence);
+                Map.copyOf(evidence));
+    }
+
+    private Evaluation evaluate(Target target, RoutingRequestProfile profile) {
+        GatewayProperties.Provider provider = target.provider();
+        ProviderHealthRegistry.Snapshot snapshot = health.snapshot(
+                provider.getId(), provider.getExpectedLatencyMs());
+        double expectedCostUsd = (
+                profile.estimatedInputTokens() * provider.getInputCostPerMillion()
+                        + profile.maxOutputTokens() * provider.getOutputCostPerMillion())
+                / 1_000_000.0;
+        double predictedLatencyMs = predictedLatency(provider, snapshot, profile);
+        double contextUtilization = profile.totalTokenUpperBound()
+                / (double) Math.max(1, provider.getMaxContextTokens());
+        return new Evaluation(
+                target, expectedCostUsd, predictedLatencyMs,
+                contextUtilization, snapshot.reliability());
+    }
+
+    private double predictedLatency(
+            GatewayProperties.Provider provider,
+            ProviderHealthRegistry.Snapshot snapshot,
+            RoutingRequestProfile profile
+    ) {
+        double prefillRate = Math.max(1, provider.getPrefillTokensPerSecond());
+        double decodeRate = Math.max(1, provider.getDecodeTokensPerSecond());
+        double referenceWorkMs = 250
+                + 512_000.0 / prefillRate
+                + 256_000.0 / decodeRate;
+        boolean nativeStream = profile.streaming()
+                && profile.clientProtocol() == provider.getProtocol();
+        double requestWorkMs = 250
+                + profile.estimatedInputTokens() * 1_000.0 / prefillRate
+                + (nativeStream
+                        ? 0
+                        : profile.maxOutputTokens() * 1_000.0 / decodeRate)
+                + (profile.requiresTools() ? provider.getToolCallPenaltyMs() : 0);
+        double requestFactor = Math.max(
+                0.35, Math.min(6.0, requestWorkMs / referenceWorkMs));
+        return Math.max(1, snapshot.observedLatencyMs() * requestFactor);
+    }
+
+    private boolean supports(
+            GatewayProperties.Provider provider,
+            RoutingRequestProfile profile
+    ) {
+        if (profile.totalTokenUpperBound() > provider.getMaxContextTokens()) return false;
+        if (profile.requiresTools() && !provider.isSupportsTools()) return false;
+        boolean nativeStream = profile.streaming()
+                && profile.clientProtocol() == provider.getProtocol();
+        return !nativeStream || provider.isSupportsStreaming();
+    }
+
+    private static double relativeUtility(double minimum, double value) {
+        if (value <= 0) return 1;
+        if (minimum <= 0) return 0;
+        return clamp(minimum / value);
     }
 
     private GatewayProperties.Provider providerOrNull(String id) {
@@ -163,9 +257,19 @@ public class ModelRouter {
     private record Target(String upstreamModel, GatewayProperties.Provider provider) {
     }
 
+    private record Evaluation(
+            Target target,
+            double expectedCostUsd,
+            double predictedLatencyMs,
+            double contextUtilization,
+            double reliability
+    ) {
+    }
+
     public record Plan(
             String requestedModel,
             RoutingPolicy policy,
+            RoutingRequestProfile profile,
             List<Route> routes
     ) {
     }

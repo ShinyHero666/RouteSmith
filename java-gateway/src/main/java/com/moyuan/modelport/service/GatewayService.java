@@ -9,6 +9,7 @@ import com.moyuan.modelport.config.GatewayProperties.RoutingPolicy;
 import com.moyuan.modelport.protocol.ProtocolTranslator;
 import com.moyuan.modelport.routing.ModelRouter;
 import com.moyuan.modelport.routing.ProviderHealthRegistry;
+import com.moyuan.modelport.routing.RoutingRequestProfile;
 import com.moyuan.modelport.routing.RoutingTraceStore;
 import com.moyuan.modelport.security.ClientAuthFilter;
 import com.moyuan.modelport.store.BudgetService;
@@ -151,8 +152,11 @@ public class GatewayService {
     ) {
         RoutingPolicy policy = router.policy(
                 exchange.getRequest().getHeaders().getFirst("x-modelport-routing-policy"));
-        ModelRouter.Plan plan = router.plan(request.path("model").asText(null), policy);
         int estimatedInputTokens = estimateInputTokens(request);
+        RoutingRequestProfile profile = RoutingRequestProfile.from(
+                request, estimatedInputTokens, latencySlo(exchange), clientProtocol);
+        ModelRouter.Plan plan = router.plan(
+                request.path("model").asText(null), policy, profile);
         long reservationTokens = (long) estimatedInputTokens + maxOutputTokens(request);
         long monthlyLimit = monthlyLimit(clientKeyId);
         List<RoutingTraceStore.Attempt> attempts = new CopyOnWriteArrayList<>();
@@ -445,10 +449,18 @@ public class GatewayService {
             ModelRouter.Route route,
             List<RoutingTraceStore.Attempt> attempts
     ) {
+        double predictedLatency = route.evidence().getOrDefault(
+                "predicted_latency_ms", 0.0);
+        boolean sloMet = plan.profile().latencySloMs() == null
+                || predictedLatency <= plan.profile().latencySloMs();
         return Map.of(
                 "x-modelport-route", route.provider().getId() + "/" + route.upstreamModel(),
                 "x-modelport-routing-policy", plan.policy().name().toLowerCase(),
                 "x-modelport-route-score", String.format(java.util.Locale.ROOT, "%.6f", route.score()),
+                "x-modelport-predicted-latency-ms", String.format(
+                        java.util.Locale.ROOT, "%.0f", predictedLatency),
+                "x-modelport-latency-slo-met", plan.profile().latencySloMs() == null
+                        ? "not-requested" : Boolean.toString(sloMet),
                 "x-modelport-fallback-count", Integer.toString(Math.max(0, attempts.size() - 1)));
     }
 
@@ -584,12 +596,32 @@ public class GatewayService {
 
     private int estimateInputTokens(ObjectNode request) {
         int characters = request.path("messages").toString().length()
-                + request.path("system").asText("").length();
+                + request.path("system").toString().length()
+                + request.path("tools").toString().length()
+                + request.path("tool_choice").toString().length();
         return Math.max(1, (int) Math.ceil(characters / 3.2));
     }
 
     private int maxOutputTokens(ObjectNode request) {
-        return Math.max(1, request.path("max_tokens").asInt(1024));
+        int value = request.has("max_completion_tokens")
+                ? request.path("max_completion_tokens").asInt(1024)
+                : request.path("max_tokens").asInt(1024);
+        return Math.max(1, value);
+    }
+
+    private Long latencySlo(ServerWebExchange exchange) {
+        String raw = exchange.getRequest().getHeaders().getFirst(
+                "x-modelport-latency-slo-ms");
+        if (raw == null || raw.isBlank()) return null;
+        try {
+            long value = Long.parseLong(raw);
+            if (value <= 0) throw new NumberFormatException("non-positive");
+            return value;
+        } catch (NumberFormatException error) {
+            throw new GatewayException(
+                    HttpStatus.BAD_REQUEST,
+                    "x-modelport-latency-slo-ms must be a positive integer");
+        }
     }
 
     private long monthlyLimit(String clientKeyId) {

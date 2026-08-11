@@ -35,6 +35,13 @@ public class RoutingTraceStore {
                 requestId,
                 plan.requestedModel(),
                 plan.policy().name().toLowerCase(),
+                new RequestProfile(
+                        plan.profile().estimatedInputTokens(),
+                        plan.profile().maxOutputTokens(),
+                        plan.profile().toolCount(),
+                        plan.profile().streaming(),
+                        plan.profile().latencySloMs(),
+                        plan.profile().clientProtocol().name()),
                 candidates,
                 List.copyOf(attempts),
                 selectedProvider,
@@ -67,10 +74,21 @@ public class RoutingTraceStore {
     ) {
     }
 
+    public record RequestProfile(
+            int estimatedInputTokens,
+            int maxOutputTokens,
+            int toolCount,
+            boolean streaming,
+            Long latencySloMs,
+            String clientProtocol
+    ) {
+    }
+
     public record Trace(
             String requestId,
             String requestedModel,
             String policy,
+            RequestProfile requestProfile,
             List<Candidate> candidates,
             List<Attempt> attempts,
             String selectedProvider,

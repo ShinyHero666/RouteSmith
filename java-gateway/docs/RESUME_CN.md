@@ -2,9 +2,9 @@
 
 ## RouteSmith 智路网关｜多模型智能路由与治理平台
 
-- 主导实现 Java 17 / Spring WebFlux 多模型网关，以 Provider Adapter 统一 OpenAI Chat 与 Anthropic Messages 的消息、Tool Call、停止原因、usage 和 SSE 语义，为 SDK、Claude Code 与 Agent 应用提供单一访问端点。
-- 将静态模型别名升级为请求感知路由：先按上下文窗口、Tool 与原生流式能力过滤候选，再结合输入/输出规模、Provider 单价、Prefill/Decode 吞吐、EWMA 延迟和历史可靠性估算请求级成本与延迟；支持质量/成本/延迟/均衡策略及可选延迟 SLO。
-- 实现 Provider 连续失败熔断与 429/5xx/超时/断连故障转移，以有限有序路由计划保证每个候选最多尝试一次；将 token 额度提升为请求级预留/结算，结合 API Key 限流、幂等缓存和 SQL 用量账本，避免 fallback 重复占用预算或重复计费。
-- 构建可审计路由 Trace，记录请求画像、候选资格、分数分解、预测延迟、SLO 命中、实际尝试链与降级终态，并通过响应头和管理端暴露脱敏证据；16 个自动化测试全部通过，另以 8 次真实 DeepSeek 请求验证链路，成功率 100%。
+- 主导实现 Java 17 / Spring WebFlux 多模型网关，以 Provider Adapter 统一 OpenAI Chat 与 Anthropic Messages 的消息、Tool Call、停止原因、Usage 和 SSE 语义；协议契约测试覆盖双向请求/响应及工具调用转换，为 SDK、Claude Code 与 Agent 应用提供单一访问端点。
+- 将静态模型别名升级为请求感知路由：先按上下文窗口、Tool 与原生流式等硬能力过滤候选，再依据输入/输出 Token 规模、Provider 单价、Prefill/Decode 吞吐、EWMA 延迟及可靠性估算单请求成本与时延；6 组路由回归覆盖策略差异、能力过滤、长 Prompt、延迟 SLO 与跨协议流式边界。
+- 实现 Provider 连续失败熔断及 429/5xx/超时/断连故障转移，以有限有序计划确保每个候选最多尝试一次；设计 Token 预算“预留-结算-释放”账本，50 个并发 100-Token 预留竞争 1,000-Token 额度时仅放行 10 个；首选 503 + 备用断连注入中两个候选各调用 1 次并返回明确 502 终态。
+- 构建可审计 Routing Trace，记录请求画像、候选资格、评分分解、预测延迟、SLO 命中、实际尝试链与降级终态，并通过响应头及管理端暴露脱敏证据；8 次真实 DeepSeek 端到端烟测全部成功且 0 降级，样本内 Provider 延迟 P50/P95 为 1222/1410 ms。
 
 **技术栈：** Java 17、Spring WebFlux、Reactor、WebClient、Flyway、H2/PostgreSQL、SSE、JUnit 5、MockWebServer、OpenAI/Anthropic API

@@ -1,6 +1,6 @@
-# Releasing ModelPort
+# Releasing RouteSmith
 
-ModelPort uses semantic versions shared by the Rust backend and dashboard. A
+RouteSmith uses semantic versions shared by the Rust backend and dashboard. A
 release tag is `v<version>`, matching `Cargo.toml` and
 `dashboard/package.json`.
 
@@ -33,7 +33,7 @@ Then run:
 ```bash
 scripts/check-all.sh
 git diff --check
-git tag -s vX.Y.Z -m "ModelPort vX.Y.Z"
+git tag -s vX.Y.Z -m "RouteSmith vX.Y.Z"
 git push origin main vX.Y.Z
 ```
 
@@ -42,7 +42,7 @@ fact in the release notes rather than implying signature verification.
 
 ## Automated Outputs
 
-The release workflow:
+The [release workflow](../.github/workflows/release.yml), when run successfully:
 
 - rejects a tag that does not match the backend, dashboard, and dashboard
   lockfile versions;
@@ -62,17 +62,23 @@ Actions to complete commit SHAs.
 
 ## Verification
 
-Consumers should verify checksums and GitHub attestations:
+For a published RouteSmith release, download its archive and `SHA256SUMS`
+from [this repository's releases](https://github.com/ShinyHero666/RouteSmith/releases),
+replace `X.Y.Z` with that release version, and verify checksums and GitHub
+attestations. If no release assets are available, use the source build in
+[Getting Started](GETTING_STARTED.md); these examples do not establish that a
+release or container image has already been published.
 
 ```bash
 sha256sum --check SHA256SUMS
 gh attestation verify model-port-vX.Y.Z-linux-amd64.tar.gz \
-  --repo tiammomo/ModelPort
-docker pull ghcr.io/tiammomo/modelport:X.Y.Z
+  --repo ShinyHero666/RouteSmith
 ```
 
-For container provenance, verify the immutable digest rather than relying only
-on a mutable tag.
+For a container published by a successful RouteSmith release workflow, obtain
+the exact image reference and immutable digest from that run's outputs. Verify
+that digest rather than relying only on a mutable tag. Do not substitute an
+upstream ModelPort image for a RouteSmith release.
 
 ## Rollback
 

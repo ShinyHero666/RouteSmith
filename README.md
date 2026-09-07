@@ -170,6 +170,13 @@ Before submitting a change:
 scripts/check-all.sh
 ```
 
+## Maintenance And Source
+
+RouteSmith is maintained by [Liang Chen (@ShinyHero666)](https://github.com/ShinyHero666).
+The Java gateway and routing additions are in [`java-gateway/`](java-gateway/).
+This project is derived from [ModelPort](https://github.com/tiammomo/ModelPort);
+the upstream copyright and MIT license are retained in [LICENSE](LICENSE).
+
 ## License
 
 [MIT](LICENSE)

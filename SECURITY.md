@@ -1,6 +1,6 @@
 # Security Policy
 
-ModelPort holds upstream provider credentials and exposes a model-routing data
+RouteSmith holds upstream provider credentials and exposes a model-routing data
 plane plus an administrative control plane. Its supported deployment boundary
 is one trusted host or a small trusted network behind a firewall or same-origin
 HTTPS reverse proxy. Do not expose the backend directly to the public internet.
@@ -32,7 +32,8 @@ flow when available. Include:
 - only redacted logs and synthetic credentials.
 
 If private reporting is unavailable, contact the repository owner through a
-private channel listed on their GitHub profile and ask to open a private channel.
+private contact method listed on the
+[RouteSmith maintainer profile](https://github.com/ShinyHero666).
 Do not place exploit details, provider keys, session tokens, backups, or a full
 `.env` in a public issue.
 

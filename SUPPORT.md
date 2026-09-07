@@ -2,8 +2,8 @@
 
 ## Community Support
 
-Use GitHub issues for reproducible defects and feature proposals. Before
-opening an issue:
+Use [RouteSmith issues](https://github.com/ShinyHero666/RouteSmith/issues)
+for reproducible defects and feature proposals. Before opening an issue:
 
 1. read the maintained documentation in [`docs/`](docs/README.md);
 2. run `scripts/config-validate.sh` and `scripts/doctor.sh`;
@@ -26,9 +26,9 @@ Community support is best effort and has no response-time, availability, or
 resolution SLA. Provider outages, account billing, model availability, and
 third-party API behavior remain the responsibility of the Provider.
 
-No paid support plan or hosted ModelPort service is represented by this
+No paid support plan or hosted RouteSmith service is represented by this
 repository unless a separate written agreement explicitly says so. A reseller
-or consultant cannot create obligations for the ModelPort maintainers.
+or consultant cannot create obligations for the RouteSmith maintainers.
 
 ## Security
 

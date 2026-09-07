@@ -146,6 +146,13 @@ npm run dev
 scripts/check-all.sh
 ```
 
+## 维护与来源
+
+RouteSmith 由[梁宸（@ShinyHero666）](https://github.com/ShinyHero666)维护。
+Java 网关及路由扩展位于 [`java-gateway/`](java-gateway/)。
+项目基于 [ModelPort](https://github.com/tiammomo/ModelPort) 开发，
+上游版权及 MIT 许可保留在 [LICENSE](LICENSE) 中。
+
 ## 许可证
 
 [MIT](LICENSE)

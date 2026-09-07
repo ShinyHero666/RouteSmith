@@ -3,7 +3,7 @@
 ## Our Pledge
 
 We as members, contributors, and leaders pledge to make participation in the
-ModelPort community a harassment-free experience for everyone, regardless of
+RouteSmith community a harassment-free experience for everyone, regardless of
 age, body size, visible or invisible disability, ethnicity, sex
 characteristics, gender identity and expression, level of experience,
 education, socio-economic status, nationality, personal appearance, race,
@@ -52,7 +52,7 @@ officially representing the project in public spaces.
 
 Report abusive, harassing, or otherwise unacceptable behavior to the
 maintainer through a private contact method listed on the
-[maintainer's GitHub profile](https://github.com/tiammomo). Do not publish
+[maintainer's GitHub profile](https://github.com/ShinyHero666). Do not publish
 personal details in an issue. Reports will be reviewed promptly and kept
 confidential as far as reasonably possible.
 

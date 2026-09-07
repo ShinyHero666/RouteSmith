@@ -1,6 +1,6 @@
 # Getting Started
 
-This is the shortest supported path from a clean clone to a working ModelPort
+This is the shortest supported path from a clean clone to a working RouteSmith
 request. It uses Docker Compose, PostgreSQL, the dashboard, and the repository's
 DeepSeek example. Use [Providers](PROVIDERS.md) when you want a local runtime or
 another hosted Provider.
@@ -12,14 +12,14 @@ another hosted Provider.
 - A Provider account and API key.
 - Free local ports `33002` and `38082`.
 
-ModelPort stores all runtime state in PostgreSQL. The Compose stack supplies it;
+RouteSmith stores all runtime state in PostgreSQL. The Compose stack supplies it;
 you do not need to install PostgreSQL on the host.
 
 ## 2. Create Local Configuration
 
 ```bash
-git clone https://github.com/tiammomo/ModelPort.git
-cd ModelPort
+git clone https://github.com/ShinyHero666/RouteSmith.git
+cd RouteSmith
 cp deploy/docker/modelport.env.example .env
 cp config.example.toml config.toml
 ```
@@ -39,8 +39,8 @@ DEEPSEEK_ANTHROPIC_AUTH_TOKEN=<real-provider-key>
 ANTHROPIC_AUTH_TOKEN=<same-value-as-MODELPORT_AUTH_TOKEN>
 ```
 
-Do not commit `.env` or `config.toml`. Provider credentials remain in ModelPort;
-client applications receive a ModelPort token or a scoped client API key.
+Do not commit `.env` or `config.toml`. Provider credentials remain in RouteSmith;
+client applications receive a RouteSmith token or a scoped client API key.
 
 The sample model is `deepseek-v4-flash`. If the Provider account exposes a
 different ID, update `DEEPSEEK_MODEL`, the `config.toml` model list/default, and

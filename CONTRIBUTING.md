@@ -1,6 +1,6 @@
-# Contributing To ModelPort
+# Contributing To RouteSmith
 
-ModelPort prioritizes a reliable Anthropic-compatible text path, explicit
+RouteSmith prioritizes a reliable Anthropic-compatible text path, explicit
 security boundaries, and low operational cost for a single host or small team.
 Changes should preserve that scope and distinguish implemented behavior from
 provider-specific verification or future proposals.
@@ -26,8 +26,8 @@ scripts/doctor.sh --development
 not install Rust, Node.js, npm, Docker, or Playwright browsers.
 
 ```bash
-git clone git@github.com:tiammomo/ModelPort.git
-cd ModelPort
+git clone git@github.com:ShinyHero666/RouteSmith.git
+cd RouteSmith
 cp .env.example .env
 cp config.example.toml config.toml
 # replace required placeholders; never commit this file

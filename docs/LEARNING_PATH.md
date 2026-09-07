@@ -1,4 +1,4 @@
-# ModelPort Learning Path
+# RouteSmith Learning Path
 
 This path gives a first-time operator or contributor a sequence of small,
 verifiable outcomes. Use Linux or WSL2 for every repository command.
@@ -8,16 +8,16 @@ verifiable outcomes. Use Linux or WSL2 for every repository command.
 ```text
 Claude Code / SDK
         |
-        | ModelPort API key
+        | RouteSmith API key
         v
-    ModelPort -------------> PostgreSQL
+    RouteSmith -------------> PostgreSQL
         |
         | Provider key (server-side only)
         v
  Hosted provider or local model runtime
 ```
 
-ModelPort is an authentication, routing, protocol, policy, and evidence
+RouteSmith is an authentication, routing, protocol, policy, and evidence
 gateway. The dashboard is an operations console, not a chat application.
 
 For local Qwen, use the
@@ -29,8 +29,8 @@ contract checks, GPU runtime activation, and gateway verification separate.
 This track requires Git, Docker, and Docker Compose v2. Rust is not required.
 
 ```bash
-git clone https://github.com/tiammomo/ModelPort.git
-cd ModelPort
+git clone https://github.com/ShinyHero666/RouteSmith.git
+cd RouteSmith
 cp deploy/docker/modelport.env.example .env
 cp config.example.toml config.toml
 # Replace every required replace-with-... value.
@@ -46,7 +46,7 @@ administrator login. No Provider call is made by this smoke test.
 
 ## Track B: Connect A Client In 30 Minutes
 
-A Provider key belongs only in ModelPort. A ModelPort API key is what Claude
+A Provider key belongs only in RouteSmith. A RouteSmith API key is what Claude
 Code, an SDK, or another client receives.
 
 ```bash
@@ -127,7 +127,7 @@ or commits. Continue with [Development](DEVELOPMENT.md) and
 2. A container is unhealthy: inspect the last 100 lines for that service.
 3. Liveness passes but readiness fails: inspect PostgreSQL, migrations, and
    state revisions.
-4. HTTP 401/403: verify the ModelPort key, account state, and policy.
+4. HTTP 401/403: verify the RouteSmith key, account state, and policy.
 5. HTTP 429: inspect local rate, concurrency, quota, and budget controls.
 6. Upstream failure: inspect Provider/credential health before making a paid
    diagnostic request.

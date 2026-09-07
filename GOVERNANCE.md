@@ -1,10 +1,13 @@
 # Governance
 
-ModelPort is an open-source project maintained by `@tiammomo`.
+RouteSmith is maintained by [Liang Chen (@ShinyHero666)](https://github.com/ShinyHero666).
+This policy applies to the RouteSmith repository. Upstream provenance and
+license notices are retained in [README.md](README.md#maintenance-and-source)
+and [LICENSE](LICENSE).
 
 ## Roles
 
-- **Users** operate ModelPort and provide reproducible feedback.
+- **Users** operate RouteSmith and provide reproducible feedback.
 - **Contributors** submit documentation, tests, code, or review.
 - **Maintainers** triage issues, review changes, manage security reports, and
   publish releases.
